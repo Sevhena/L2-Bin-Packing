@@ -4,11 +4,18 @@ from ..model import Online
 
 class NextFit(Online):
 
+    def __init__(self):
+        self.count = 0
+
+    def counting_compares(self):
+        return self.count
+
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0
         solution = [[]]
         remaining = capacity
         for w in stream:
+            self.count += 1
             if remaining >= w:
                 solution[bin_index].append(w)
                 remaining = remaining - w
@@ -18,13 +25,25 @@ class NextFit(Online):
                 remaining = capacity - w
         return solution
 
-class BadNextFit(Online):
+class BadNextFit(Online): #The most terrible bin packing algorithm from T1
+
+    def __init__(self):
+        self.count = 0
+
+    def counting_compares(self):
+        return self.count
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         solution = [[w] for w in stream]
         return solution
 
 class FirstFit(Online):
+
+    def __init__(self):
+        self.count = 0
+
+    def counting_compares(self):
+        return self.count
     
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0
@@ -33,6 +52,7 @@ class FirstFit(Online):
         for w in stream:
             found_fit = False
             for i in range(bin_index):
+                self.count += 1
                 if remainders[i] >= w:
                     solution[i].append(w)
                     remainders[i] -= w
@@ -46,12 +66,19 @@ class FirstFit(Online):
 
 class BestFit(Online):
 
+    def __init__(self):
+        self.count = 0
+
+    def counting_compares(self):
+        return self.count
+
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0
         solution = [[]]
         remainders = [capacity]
         for w in stream:
             if solution[bin_index] == [] or len(solution) == 1:
+                self.count += 1
                 if remainders[bin_index] >= w:
                     solution[bin_index].append(w)
                     remainders[bin_index] -= w
@@ -62,6 +89,7 @@ class BestFit(Online):
                 continue
             max_load = [-1, capacity + 1]
             for i in range(bin_index):
+                self.count += 1
                 if remainders[i] >= w:
                     if remainders[i] < max_load[1]:
                         max_load[0] = i; max_load[1] = remainders[i]
@@ -76,12 +104,19 @@ class BestFit(Online):
 
 class WorstFit(Online):
 
+    def __init__(self):
+        self.count = 0
+
+    def counting_compares(self):
+        return self.count
+
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0
         solution = [[]]
         remainders = [capacity]
         for w in stream:
             if solution[bin_index] == [] or len(solution) == 1:
+                self.count += 1
                 if remainders[bin_index] >= w:
                     solution[bin_index].append(w)
                     remainders[bin_index] -= w
@@ -92,6 +127,7 @@ class WorstFit(Online):
                 continue
             min_load = [-1, -1]
             for i in range(bin_index):
+                self.count += 1
                 if remainders[i] >= w:
                     if remainders[i] > min_load[1]:
                         min_load[0] = i; min_load[1] = remainders[i]
@@ -103,3 +139,10 @@ class WorstFit(Online):
                 bin_index += 1
                 remainders.append(capacity-w)
         return solution
+
+
+
+strategy: Online = NextFit()
+count: int = NextFit().counting_compares()
+
+print(count)
