@@ -17,7 +17,6 @@ class Online(BinPacker):
     def _process(self, c: int, stream: Iterator[int]) -> Solution:
         pass
 
-
 class Offline(BinPacker):
 
     def __call__(self, ws: WeightSet):
@@ -26,4 +25,13 @@ class Offline(BinPacker):
 
     @abstractmethod
     def _process(self, c: int, weights: list[int]) -> Solution:
+        pass
+
+class Multiway(BinPacker):
+
+    def __call__(self, ws: WeightSet, bin_num: int):
+        return self._process(ws, bin_num)
+
+    @abstractmethod
+    def _process(self, weights: list[int], bin_num: int) -> Solution:
         pass

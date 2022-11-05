@@ -14,6 +14,7 @@ class NextFit(Online):
         bin_index = 0
         solution = [[]]
         remaining = capacity
+
         for w in stream:
             self.count += 1
             if remaining >= w:
@@ -46,23 +47,67 @@ class FirstFit(Online):
         return self.count
     
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
-        bin_index = 0
+        bins = 0
         solution = [[]]
         remainders = [capacity]
         for w in stream:
-            found_fit = False
-            for i in range(bin_index):
+            i = 0
+            while i < bins:
                 self.count += 1
                 if remainders[i] >= w:
                     solution[i].append(w)
                     remainders[i] -= w
-                    found_fit = True
                     break
-            if not found_fit:
-                bin_index += 1
+                i += 1
+            else:
+                bins += 1
                 solution.append([w])
                 remainders.append(capacity-w)
         return solution
+
+class RefinedFirstFit(Online):
+
+    def _process(self, capacity: int, stream: WeightStream) -> Solution:
+        Apiece = []; B1piece = []; B2piece = []; Xpiece = []
+        Class1 = [[]]; Class2 = [[]]; Class3 = [[]]; Class4 = [[]]
+        m = [6,7,8,9]
+        counter = 0
+
+        pieceMapping = {'Class1':Apiece, 'Class2':B1piece, 'Class3':B2piece, 'Class4': Xpiece}
+        classMapping = {'Class1':Class1, 'Class2':Class2, 'Class3':Class3, 'Class4': Class4}
+
+        for w in stream:
+            counter+=1
+            if((w/capacity) >1/2 and (w/capacity) <=1):
+                Apiece.append(w)
+            elif((w/capacity) >2/5 and (w/capacity) <=1/2):
+                B1piece.append(w)
+            elif((w/capacity) >1/3 and (w/capacity) <= 2/5):
+                if(counter % m[0] == 0 or counter % m[1] == 0 or counter % m[2] == 0 or counter % m[3] == 0):
+                    Apiece.append(w)
+                else:
+                    B2piece.append(w)
+            else:
+                Xpiece.append(w)
+
+        for Class in classMapping:
+            bin_index = 0
+            remainders = [capacity]
+            for w in pieceMapping[Class]:
+                found_fit = False
+                for i in range(bin_index):
+                    if remainders[i] >= w:
+                        classMapping[Class][i].append(w)
+                        remainders[i] -= w
+                        found_fit = True
+                        break
+                if not found_fit:
+                    bin_index += 1
+                    classMapping[Class].append([w])
+                    remainders.append(capacity-w)
+
+        solution = classMapping['Class1']+classMapping['Class2']+classMapping['Class3']+classMapping['Class4']
+        return [x for x in solution if x]
 
 class BestFit(Online):
 
@@ -139,10 +184,3 @@ class WorstFit(Online):
                 bin_index += 1
                 remainders.append(capacity-w)
         return solution
-
-
-
-strategy: Online = NextFit()
-count: int = NextFit().counting_compares()
-
-print(count)

@@ -1,7 +1,7 @@
 import pyperf
 from os import listdir
 from os.path import isfile, join, basename
-from macpacking.algorithms.online import NextFit
+
 from macpacking.reader import BinppReader, JburkardtReader
 from macpacking.factory import BinPackerFactory
 from macpacking.model import BinPacker
@@ -23,13 +23,13 @@ def main():
 
     runner = pyperf.Runner()
 
-    #binpp_cases = [list_case_files(N4_CASES), list_case_files(N2_CASES), list_case_files(HARD_CASES)] 
-    #run_off_binpp_bench(runner, binpp_cases, off_algorithms)
-    #run_on_binpp_bench(runner, binpp_cases, on_algorithms)
+    binpp_cases = [list_case_files(N4_CASES), list_case_files(N2_CASES), list_case_files(HARD_CASES)] 
+    run_off_binpp_bench(runner, binpp_cases, off_algorithms)
+    run_on_binpp_bench(runner, binpp_cases, on_algorithms)
 
     jburkardt_cases = list_case_files(JBURKARDT_CASES)
     run_off_jburkardt_bench(runner, jburkardt_cases, off_algorithms)
-    # run_on_jburkardt_bench(runner, jburkardt_cases, on_algorithms)
+    run_on_jburkardt_bench(runner, jburkardt_cases, on_algorithms)
 
 
 def list_case_files(dir: str) -> list[str]:
@@ -50,7 +50,7 @@ def run_on_binpp_bench(runner, cases: list[str], on_algorithms: list[BinPacker])
     #runner = pyperf.Runner()
     for case in cases:
         for casefile in case: 
-            name = basename(casefile) + "online"
+            name = basename(casefile) + " online"
             data = BinppReader(casefile).online()
             for algo in on_algorithms: 
                 binpacker = BinPackerFactory.build(algo)
@@ -96,7 +96,7 @@ def run_on_jburkardt_bench(runner, cases: list[str], on_algorithms: list[BinPack
         data = JburkardtReader(trio[0], trio[1], trio[2]).online()
         for algo in on_algorithms: 
             binpacker = BinPackerFactory.build(algo)
-            #runner.bench_func(name + " " + algo, binpacker, data)
+            runner.bench_func(name + " " + algo, binpacker, data)
 
 if __name__ == "__main__":
     main()
