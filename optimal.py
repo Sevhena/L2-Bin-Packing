@@ -45,7 +45,7 @@ def main():
     #print(optimal_jbur)
 
     off_algorithms = ['NF_Off', 'FFDesc', 'BFDesc', 'WFDesc', 'BenMaier']
-    on_algorithms = ['NF_On', 'FF', 'BF', 'WF']
+    on_algorithms = ['NF_On', 'FF', 'BF', 'WF', 'RFF']
 
     print("Evaluating binpp files...")
     for file in binpp:

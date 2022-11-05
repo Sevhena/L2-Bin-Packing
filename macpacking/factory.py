@@ -18,6 +18,8 @@ class BinPackerFactory():
                 selected = multi_algo.MultiNextFit()
             case 'FF':
                 selected = on_algo.FirstFit()
+            case 'RFF':
+                selected = on_algo.RefinedFirstFit()
             case 'FFDesc':
                 selected = off_algo.FirstFitDecreasing()
             case 'MFF':

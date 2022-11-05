@@ -18,8 +18,8 @@ JBURKARDT_CASES = './_datasets/jburkardt'
 
 
 def main():
-    off_algorithms = ['NF_Off', 'FFDesc', 'BFDesc', 'WFDesc']
-    on_algorithms = ['NF_On', 'FF', 'BF', 'WF']
+    off_algorithms = ['NF_Off', 'FFDesc', 'BFDesc', 'WFDesc', 'BenMaier']
+    on_algorithms = ['NF_On', 'FF', 'BF', 'WF', 'RFF']
 
     runner = pyperf.Runner()
 
