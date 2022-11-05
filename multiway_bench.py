@@ -21,7 +21,9 @@ optimal_binpp = {}
 optimal_binpp_hard = {}
 optimal_jbur = {}
 
+
 def main():
+
     global optimal_binpp, optimal_binpp_hard, optimal_jbur
 
     algorithms = ['MNF', 'MFF', 'MBF', 'MWF', 'BenMaierM']
@@ -32,7 +34,7 @@ def main():
     optimal_binpp_hard = read_binpp_hard_csv()
     optimal_jbur = read_jburkardt_csv()
 
-    binpp_cases = [list_case_files(N4_CASES), list_case_files(N2_CASES), list_case_files(HARD_CASES)] 
+    binpp_cases = [list_case_files(N4_CASES), list_case_files(N2_CASES), list_case_files(HARD_CASES)]
     run_binpp_bench(runner, binpp_cases, algorithms)
 
     jburkardt_cases = list_case_files(JBURKARDT_CASES)
@@ -40,13 +42,16 @@ def main():
 
 
 def list_case_files(dir: str) -> list[str]:
+
     return sorted([f'{dir}/{f}' for f in listdir(dir) if isfile(join(dir, f)) and not f.endswith("_source.txt")])
 
+
 def run_binpp_bench(runner, cases: list[str], off_algorithms: list[BinPacker]) -> None:
-    #runner = pyperf.Runner()
-    #print(cases)
+
+    # runner = pyperf.Runner()
+    # print(cases)
     for case in cases:
-        for casefile in case: 
+        for casefile in case:
             name = basename(casefile)
             numbins: int = None
             if name[:4] == "HARD":
@@ -55,12 +60,14 @@ def run_binpp_bench(runner, cases: list[str], off_algorithms: list[BinPacker]) -
                 numbins: int = optimal_binpp[basename(casefile)[:-8]]
             name += " multiway"
             data = BinppReader(casefile).multiway()
-            for algo in off_algorithms: 
+            for algo in off_algorithms:
                 binpacker = BinPackerFactory.build(algo)
                 runner.bench_func(name + " " + algo, binpacker, data, numbins)
 
+
 def run_jburkardt_bench(runner, cases: list[str], on_algorithms: list[BinPacker]) -> None:
-    #runner = pyperf.Runner()
+
+    # runner = pyperf.Runner()
     trios = []
     index, counter = -1, 3
     for case in cases:
@@ -72,15 +79,17 @@ def run_jburkardt_bench(runner, cases: list[str], on_algorithms: list[BinPacker]
             trios[index].append(case)
             counter += 1
 
-    #print(trios)
+    # print(trios)
     for trio in trios:
         name = basename(trio[0])[:3]
         numbins: int = optimal_jbur[name]
         name += " multiway"
         data = JburkardtReader(trio[0], trio[1], trio[2]).multiway()
-        for algo in on_algorithms: 
+        for algo in on_algorithms:
             binpacker = BinPackerFactory.build(algo)
             runner.bench_func(name + " " + algo, binpacker, data, numbins)
 
+
 if __name__ == "__main__":
+
     main()

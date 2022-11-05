@@ -23,7 +23,10 @@ def main():
 
     runner = pyperf.Runner()
 
-    binpp_cases = [list_case_files(N4_CASES), list_case_files(N2_CASES), list_case_files(HARD_CASES)] 
+    n4_cases = list_case_files(N4_CASES)
+    n2_cases = list_case_files(N2_CASES)
+    hard_cases = list_case_files(HARD_CASES)
+    binpp_cases = [n4_cases, n2_cases, hard_cases]
     run_off_binpp_bench(runner, binpp_cases, off_algorithms)
     run_on_binpp_bench(runner, binpp_cases, on_algorithms)
 
@@ -33,31 +36,38 @@ def main():
 
 
 def list_case_files(dir: str) -> list[str]:
+
     return sorted([f'{dir}/{f}' for f in listdir(dir) if isfile(join(dir, f)) and not f.endswith("_source.txt")])
 
+
 def run_off_binpp_bench(runner, cases: list[str], off_algorithms: list[BinPacker]) -> None:
-    #runner = pyperf.Runner()
-    #print(cases)
+
+    # runner = pyperf.Runner()
+    # print(cases)
     for case in cases:
-        for casefile in case: 
+        for casefile in case:
             name = basename(casefile) + " offline"
             data = BinppReader(casefile).offline()
-            for algo in off_algorithms: 
+            for algo in off_algorithms:
                 binpacker = BinPackerFactory.build(algo)
                 runner.bench_func(name + " " + algo, binpacker, data)
+
 
 def run_on_binpp_bench(runner, cases: list[str], on_algorithms: list[BinPacker]) -> None:
-    #runner = pyperf.Runner()
+
+    # runner = pyperf.Runner()
     for case in cases:
-        for casefile in case: 
+        for casefile in case:
             name = basename(casefile) + " online"
             data = BinppReader(casefile).online()
-            for algo in on_algorithms: 
+            for algo in on_algorithms:
                 binpacker = BinPackerFactory.build(algo)
                 runner.bench_func(name + " " + algo, binpacker, data)
 
+
 def run_off_jburkardt_bench(runner, cases: list[str], off_algorithms: list[BinPacker]) -> None:
-    #runner = pyperf.Runner()
+
+    # runner = pyperf.Runner()
     trios = []
     index, counter = -1, 3
     for case in cases:
@@ -69,16 +79,18 @@ def run_off_jburkardt_bench(runner, cases: list[str], off_algorithms: list[BinPa
             trios[index].append(case)
             counter += 1
 
-    #print(trios)
+    # print(trios)
     for trio in trios:
         name = basename(trio[0])[:3] + " offline"
         data = JburkardtReader(trio[0], trio[1], trio[2]).offline()
-        for algo in off_algorithms: 
+        for algo in off_algorithms:
             binpacker = BinPackerFactory.build(algo)
             runner.bench_func(name + " " + algo, binpacker, data)
 
+
 def run_on_jburkardt_bench(runner, cases: list[str], on_algorithms: list[BinPacker]) -> None:
-    #runner = pyperf.Runner()
+
+    # runner = pyperf.Runner()
     trios = []
     index, counter = -1, 3
     for case in cases:
@@ -90,13 +102,15 @@ def run_on_jburkardt_bench(runner, cases: list[str], on_algorithms: list[BinPack
             trios[index].append(case)
             counter += 1
 
-    #print(trios)
+    # print(trios)
     for trio in trios:
         name = basename(trio[0])[:3] + " online"
         data = JburkardtReader(trio[0], trio[1], trio[2]).online()
-        for algo in on_algorithms: 
+        for algo in on_algorithms:
             binpacker = BinPackerFactory.build(algo)
             runner.bench_func(name + " " + algo, binpacker, data)
 
+
 if __name__ == "__main__":
+
     main()

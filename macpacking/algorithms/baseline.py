@@ -8,6 +8,7 @@ class BenMaier(Offline):
     def _process(self, capacity: int, weights: list[int]) -> Solution:
         return bp.to_constant_volume(weights, capacity)
 
+
 class BenMaierM(Multiway):
 
     def _process(self, weights: list[int], bin_num: int) -> Solution:

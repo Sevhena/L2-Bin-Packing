@@ -4,6 +4,7 @@ import macpacking.algorithms.multiway as multi_algo
 import macpacking.algorithms.baseline as base
 from macpacking.model import BinPacker
 
+
 class BinPackerFactory():
 
     @staticmethod

@@ -26,7 +26,8 @@ class NextFit(Online):
                 remaining = capacity - w
         return solution
 
-class BadNextFit(Online): #The most terrible bin packing algorithm from T1
+
+class BadFit(Online):  # The most terrible bin packing algorithm from T1
 
     def __init__(self):
         self.count = 0
@@ -38,6 +39,7 @@ class BadNextFit(Online): #The most terrible bin packing algorithm from T1
         solution = [[w] for w in stream]
         return solution
 
+
 class FirstFit(Online):
 
     def __init__(self):
@@ -45,7 +47,7 @@ class FirstFit(Online):
 
     def counting_compares(self):
         return self.count
-    
+
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bins = 0
         solution = [[]]
@@ -65,25 +67,34 @@ class FirstFit(Online):
                 remainders.append(capacity-w)
         return solution
 
+
 class RefinedFirstFit(Online):
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
-        Apiece = []; B1piece = []; B2piece = []; Xpiece = []
-        Class1 = [[]]; Class2 = [[]]; Class3 = [[]]; Class4 = [[]]
-        m = [6,7,8,9]
+        Apiece = []
+        B1piece = []
+        B2piece = []
+        Xpiece = []
+
+        Class1 = [[]]
+        Class2 = [[]]
+        Class3 = [[]]
+        Class4 = [[]]
+
+        m = [6, 7, 8, 9]
         counter = 0
 
-        pieceMapping = {'Class1':Apiece, 'Class2':B1piece, 'Class3':B2piece, 'Class4': Xpiece}
-        classMapping = {'Class1':Class1, 'Class2':Class2, 'Class3':Class3, 'Class4': Class4}
+        pieceMapping = {'Class1': Apiece, 'Class2': B1piece, 'Class3': B2piece, 'Class4': Xpiece}
+        classMapping = {'Class1': Class1, 'Class2': Class2, 'Class3': Class3, 'Class4': Class4}
 
         for w in stream:
-            counter+=1
-            if((w/capacity) >1/2 and (w/capacity) <=1):
+            counter += 1
+            if (w / capacity) > 1/2 and (w / capacity) <= 1:
                 Apiece.append(w)
-            elif((w/capacity) >2/5 and (w/capacity) <=1/2):
+            elif (w / capacity) > 2/5 and (w / capacity) <= 1/2:
                 B1piece.append(w)
-            elif((w/capacity) >1/3 and (w/capacity) <= 2/5):
-                if(counter % m[0] == 0 or counter % m[1] == 0 or counter % m[2] == 0 or counter % m[3] == 0):
+            elif (w / capacity) > 1/3 and (w / capacity) <= 2/5:
+                if counter % m[0] == 0 or counter % m[1] == 0 or counter % m[2] == 0 or counter % m[3] == 0:
                     Apiece.append(w)
                 else:
                     B2piece.append(w)
@@ -104,10 +115,11 @@ class RefinedFirstFit(Online):
                 if not found_fit:
                     bin_index += 1
                     classMapping[Class].append([w])
-                    remainders.append(capacity-w)
+                    remainders.append(capacity - w)
 
-        solution = classMapping['Class1']+classMapping['Class2']+classMapping['Class3']+classMapping['Class4']
+        solution = classMapping['Class1'] + classMapping['Class2'] + classMapping['Class3'] + classMapping['Class4']
         return [x for x in solution if x]
+
 
 class BestFit(Online):
 
@@ -137,7 +149,8 @@ class BestFit(Online):
                 self.count += 1
                 if remainders[i] >= w:
                     if remainders[i] < max_load[1]:
-                        max_load[0] = i; max_load[1] = remainders[i]
+                        max_load[0] = i
+                        max_load[1] = remainders[i]
             if max_load[0] >= 0:
                 solution[max_load[0]].append(w)
                 remainders[max_load[0]] -= w
@@ -146,6 +159,7 @@ class BestFit(Online):
                 bin_index += 1
                 remainders.append(capacity-w)
         return solution
+
 
 class WorstFit(Online):
 
@@ -175,7 +189,8 @@ class WorstFit(Online):
                 self.count += 1
                 if remainders[i] >= w:
                     if remainders[i] > min_load[1]:
-                        min_load[0] = i; min_load[1] = remainders[i]
+                        min_load[0] = i
+                        min_load[1] = remainders[i]
             if min_load[0] >= 0:
                 solution[min_load[0]].append(w)
                 remainders[min_load[0]] -= w
