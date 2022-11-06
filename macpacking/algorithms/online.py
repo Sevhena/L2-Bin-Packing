@@ -7,9 +7,6 @@ class NextFit(Online):
     def __init__(self):
         self.count = 0
 
-    def counting_compares(self):
-        return self.count
-
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0
         solution = [[]]
@@ -32,9 +29,6 @@ class BadFit(Online):  # The most terrible bin packing algorithm from T1
     def __init__(self):
         self.count = 0
 
-    def counting_compares(self):
-        return self.count
-
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         solution = [[w] for w in stream]
         return solution
@@ -44,9 +38,6 @@ class FirstFit(Online):
 
     def __init__(self):
         self.count = 0
-
-    def counting_compares(self):
-        return self.count
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bins = 0
@@ -69,6 +60,9 @@ class FirstFit(Online):
 
 
 class RefinedFirstFit(Online):
+
+    def __init__(self):
+        self.count = 0
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         Apiece = []
@@ -126,9 +120,6 @@ class BestFit(Online):
     def __init__(self):
         self.count = 0
 
-    def counting_compares(self):
-        return self.count
-
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0
         solution = [[]]
@@ -165,9 +156,6 @@ class WorstFit(Online):
 
     def __init__(self):
         self.count = 0
-
-    def counting_compares(self):
-        return self.count
 
     def _process(self, capacity: int, stream: WeightStream) -> Solution:
         bin_index = 0

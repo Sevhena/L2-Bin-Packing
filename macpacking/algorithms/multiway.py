@@ -7,6 +7,9 @@ itr = 10
 
 class MultiNextFit(Multiway):
 
+    def __init__(self):
+        self.count = itr
+
     def _process(self, weights: WeightSet, numbins: int, iterations=itr) -> Solution:
 
         sum_values = sum(weights)
@@ -17,6 +20,7 @@ class MultiNextFit(Multiway):
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2
             algo = NFD()
+            self.count += algo.counting_compares()
             bins = len(algo((c, weights)))
             if bins <= numbins:
                 upper_bound = c
@@ -24,10 +28,15 @@ class MultiNextFit(Multiway):
                 lower_bound = c
 
         algo = NFD()
-        return algo((upper_bound, weights))
+        solution = algo((upper_bound, weights))
+        self.count += algo.counting_compares()
+        return solution
 
 
 class MultiFirstFit(Multiway):
+
+    def __init__(self):
+        self.count = itr
 
     def _process(self, weights: WeightSet, numbins: int, iterations=itr) -> Solution:
 
@@ -39,17 +48,23 @@ class MultiFirstFit(Multiway):
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2
             algo = FFD()
+            self.count += algo.counting_compares()
             bins = len(algo((c, weights)))
             if bins <= numbins:
                 upper_bound = c
             else:
                 lower_bound = c
 
-        algo = FFD()
-        return algo((upper_bound, weights))
+        algo: Multiway = FFD()
+        solution = algo((upper_bound, weights))
+        self.count += algo.counting_compares()
+        return solution
 
 
 class MultiBestFit(Multiway):
+
+    def __init__(self):
+        self.count = itr
 
     def _process(self, weights: WeightSet, numbins: int, iterations=itr) -> Solution:
 
@@ -61,17 +76,24 @@ class MultiBestFit(Multiway):
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2
             algo = BFD()
-            bins = len(algo((c, weights)))
+            result = algo((c, weights))
+            self.count += algo.counting_compares()
+            bins = len(result)
             if bins <= numbins:
                 upper_bound = c
             else:
                 lower_bound = c
 
-        algo = BFD()
-        return algo((upper_bound, weights))
+        algo: Multiway = BFD()
+        solution = algo((upper_bound, weights))
+        self.count += algo.counting_compares()
+        return solution
 
 
 class MultiWorstFit(Multiway):
+
+    def __init__(self):
+        self.count = itr
 
     def _process(self, weights: WeightSet, numbins: int, iterations=itr) -> Solution:
 
@@ -83,6 +105,7 @@ class MultiWorstFit(Multiway):
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2
             algo = WFD()
+            self.count += algo.counting_compares()
             bins = len(algo((c, weights)))
             if bins <= numbins:
                 upper_bound = c
@@ -90,4 +113,6 @@ class MultiWorstFit(Multiway):
                 lower_bound = c
 
         algo = WFD()
-        return algo((upper_bound, weights))
+        solution = algo((upper_bound, weights))
+        self.count += algo.counting_compares()
+        return solution

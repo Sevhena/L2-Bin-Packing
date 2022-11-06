@@ -13,7 +13,7 @@ def wasted_space(capacity, bin_packing):
 def weight_distribution(bin_packing):
 
     bin_sums = [sum(bin) for bin in bin_packing]
-    print(bin_sums)
+    print(f'Weight Distribution: {bin_sums}\n')
     bin_indexes = [x for x in range(len(bin_packing))]
 
     plt.plot(bin_indexes, bin_sums)
