@@ -72,8 +72,8 @@ class JburkardtReader(DatasetReader):
 
         with open(self.__c_filename, 'r') as reader:
             capacity = int(reader.readline())
-        
+
         with open(self.__w_filename, 'r') as reader:
             weights = [int(w.strip("\n")) for w in reader if w != "\n"]
-        
+
         return (capacity, weights)

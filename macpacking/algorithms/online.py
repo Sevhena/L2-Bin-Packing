@@ -45,7 +45,7 @@ class FirstFit(Online):
         remainders = [capacity]
         for w in stream:
             i = 0
-            while i < bins:
+            while i <= bins:
                 self.count += 1
                 if remainders[i] >= w:
                     solution[i].append(w)
@@ -78,17 +78,31 @@ class RefinedFirstFit(Online):
         m = [6, 7, 8, 9]
         counter = 0
 
-        pieceMapping = {'Class1': Apiece, 'Class2': B1piece, 'Class3': B2piece, 'Class4': Xpiece}
-        classMapping = {'Class1': Class1, 'Class2': Class2, 'Class3': Class3, 'Class4': Class4}
+        pieceMapping = {
+            'Class1': Apiece,
+            'Class2': B1piece,
+            'Class3': B2piece,
+            'Class4': Xpiece
+        }
+        classMapping = {
+            'Class1': Class1,
+            'Class2': Class2,
+            'Class3': Class3,
+            'Class4': Class4
+        }
 
         for w in stream:
             counter += 1
             if (w / capacity) > 1/2 and (w / capacity) <= 1:
+                self.count += 1
                 Apiece.append(w)
             elif (w / capacity) > 2/5 and (w / capacity) <= 1/2:
+                self.count += 2
                 B1piece.append(w)
             elif (w / capacity) > 1/3 and (w / capacity) <= 2/5:
+                self.count += 3
                 if counter % m[0] == 0 or counter % m[1] == 0 or counter % m[2] == 0 or counter % m[3] == 0:
+                    self.count += 1
                     Apiece.append(w)
                 else:
                     B2piece.append(w)
@@ -99,14 +113,15 @@ class RefinedFirstFit(Online):
             bin_index = 0
             remainders = [capacity]
             for w in pieceMapping[Class]:
-                found_fit = False
-                for i in range(bin_index):
+                i = 0
+                while i <= bin_index:
+                    self.count += 1
                     if remainders[i] >= w:
                         classMapping[Class][i].append(w)
                         remainders[i] -= w
-                        found_fit = True
                         break
-                if not found_fit:
+                    i += 1
+                else:
                     bin_index += 1
                     classMapping[Class].append([w])
                     remainders.append(capacity - w)
@@ -125,18 +140,8 @@ class BestFit(Online):
         solution = [[]]
         remainders = [capacity]
         for w in stream:
-            if solution[bin_index] == [] or len(solution) == 1:
-                self.count += 1
-                if remainders[bin_index] >= w:
-                    solution[bin_index].append(w)
-                    remainders[bin_index] -= w
-                else:
-                    bin_index += 1
-                    solution.append([w])
-                    remainders.append(capacity - w)
-                continue
             max_load = [-1, capacity + 1]
-            for i in range(bin_index):
+            for i in range(bin_index + 1):
                 self.count += 1
                 if remainders[i] >= w:
                     if remainders[i] < max_load[1]:
@@ -162,18 +167,8 @@ class WorstFit(Online):
         solution = [[]]
         remainders = [capacity]
         for w in stream:
-            if solution[bin_index] == [] or len(solution) == 1:
-                self.count += 1
-                if remainders[bin_index] >= w:
-                    solution[bin_index].append(w)
-                    remainders[bin_index] -= w
-                else:
-                    bin_index += 1
-                    solution.append([w])
-                    remainders.append(capacity - w)
-                continue
             min_load = [-1, -1]
-            for i in range(bin_index):
+            for i in range(bin_index + 1):
                 self.count += 1
                 if remainders[i] >= w:
                     if remainders[i] > min_load[1]:

@@ -16,7 +16,7 @@ class Online(BinPacker):
     @abstractmethod
     def __init__(self):
         pass
-    
+
     def counting_compares(self):
         return self.count
 
@@ -34,7 +34,7 @@ class Offline(BinPacker):
     @abstractmethod
     def __init__(self):
         pass
-    
+
     def counting_compares(self):
         return self.count
 
@@ -51,7 +51,7 @@ class Multiway(BinPacker):
     @abstractmethod
     def __init__(self):
         pass
-    
+
     def counting_compares(self):
         return self.count
 

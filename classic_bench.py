@@ -1,6 +1,5 @@
 import pyperf
-from os import listdir
-from os.path import isfile, join, basename
+from os.path import basename
 
 from macpacking.reader import BinppReader, JburkardtReader
 from macpacking.factory import BinPackerFactory
@@ -25,7 +24,8 @@ def main():
 
     runner = pyperf.Runner()
 
-    binpp_cases = [list_files(N4_CASES), list_files(N2_CASES), list_files(HARD_CASES)]
+    binpp_cases = [list_files(N4_CASES), list_files(N2_CASES),
+                   list_files(HARD_CASES)]
     run_off_binpp_bench(runner, binpp_cases, off_algorithms)
     run_on_binpp_bench(runner, binpp_cases, on_algorithms)
 

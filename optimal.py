@@ -4,8 +4,7 @@ from macpacking.factory import BinPackerFactory
 from benchtools.optimal_vals import OptimalValues
 from benchtools.case_reader import list_files, group_jburkardt_files
 
-from os import listdir, walk
-from os.path import isfile, join, basename
+from os.path import basename
 from json import dump
 
 BINPP = './_datasets/binpp'

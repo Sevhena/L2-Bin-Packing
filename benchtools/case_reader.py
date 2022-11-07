@@ -4,9 +4,10 @@ from os.path import join, isfile, basename
 
 def list_files(root: str) -> list[str]:
 
-    return sorted([join(path, name) for path, subdirs, files in walk(root) for name in files 
-
-    if isfile(join(path, name)) and not name == "_source.txt"])
+    return sorted([join(path, name)
+                  for path, subdirs, files in walk(root)
+                  for name in files if isfile(join(path, name))
+                  and not name == "_source.txt"])
 
 
 def group_jburkardt_files(files: list[str]) -> list[list[str]]:

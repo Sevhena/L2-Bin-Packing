@@ -1,5 +1,6 @@
 import csv
 
+
 class OptimalValues:
 
     def __init__(self):
@@ -19,7 +20,6 @@ class OptimalValues:
                 optimal_binpp[lines[0]] = int(lines[1])
         return optimal_binpp
 
-
     def read_binpp_hard_csv(self):
 
         optimal_binpp_hard = {}
@@ -32,7 +32,6 @@ class OptimalValues:
                 optimal_binpp_hard[lines[0]] = int(lines[1])
 
         return optimal_binpp_hard
-
 
     def read_jburkardt_csv(self):
 

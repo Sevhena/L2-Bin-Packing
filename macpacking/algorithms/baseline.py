@@ -7,7 +7,7 @@ class BenMaier(Offline):
 
     def __init__(self):
         self.count = "This is the baseline!"
-        
+
     def counting_compares(self):
         return self.count
 
@@ -19,7 +19,7 @@ class BenMaierM(Multiway):
 
     def __init__(self):
         self.count = "This is the baseline!"
-        
+
     def counting_compares(self):
         return self.count
 

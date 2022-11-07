@@ -1,6 +1,7 @@
 from .. import Solution, WeightSet
 from ..model import Multiway
-from .offline import NextFit as NFD, FirstFitDecreasing as FFD, BestFitDecreasing as BFD, WorstFitDecreasing as WFD
+from .offline import NextFit as NFD, FirstFitDecreasing as FFD,\
+        BestFitDecreasing as BFD, WorstFitDecreasing as WFD
 
 itr = 10
 
@@ -14,8 +15,8 @@ class MultiNextFit(Multiway):
 
         sum_values = sum(weights)
         max_values = max(weights)
-        lower_bound = max(sum_values/numbins, max_values)  # With bin-capacity smaller than this, every packing must use more than `numbins` bins.
-        upper_bound = max(2*sum_values/numbins, max_values)  # With this bin-capacity, FFD always uses at most `numbins` bins.
+        lower_bound = max(sum_values/numbins, max_values)
+        upper_bound = max(2*sum_values/numbins, max_values)
 
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2
@@ -42,8 +43,8 @@ class MultiFirstFit(Multiway):
 
         sum_values = sum(weights)
         max_values = max(weights)
-        lower_bound = max(sum_values/numbins, max_values)  # With bin-capacity smaller than this, every packing must use more than `numbins` bins.
-        upper_bound = max(2*sum_values/numbins, max_values)  # With this bin-capacity, FFD always uses at most `numbins` bins.
+        lower_bound = max(sum_values/numbins, max_values)
+        upper_bound = max(2*sum_values/numbins, max_values)
 
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2
@@ -70,8 +71,8 @@ class MultiBestFit(Multiway):
 
         sum_values = sum(weights)
         max_values = max(weights)
-        lower_bound = max(sum_values/numbins, max_values)  # With bin-capacity smaller than this, every packing must use more than `numbins` bins.
-        upper_bound = max(2*sum_values/numbins, max_values)  # With this bin-capacity, FFD always uses at most `numbins` bins.
+        lower_bound = max(sum_values/numbins, max_values)
+        upper_bound = max(2*sum_values/numbins, max_values)
 
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2
@@ -99,8 +100,8 @@ class MultiWorstFit(Multiway):
 
         sum_values = sum(weights)
         max_values = max(weights)
-        lower_bound = max(sum_values/numbins, max_values)  # With bin-capacity smaller than this, every packing must use more than `numbins` bins.
-        upper_bound = max(2*sum_values/numbins, max_values)  # With this bin-capacity, FFD always uses at most `numbins` bins.
+        lower_bound = max(sum_values/numbins, max_values)
+        upper_bound = max(2*sum_values/numbins, max_values)
 
         for _ in range(iterations):
             c = (lower_bound+upper_bound)/2

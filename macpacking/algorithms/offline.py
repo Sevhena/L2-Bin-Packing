@@ -1,6 +1,7 @@
 from .. import Solution, WeightSet
 from ..model import Offline
-from .online import NextFit as Nf_online, FirstFit as FF_online, BestFit as BF_online, WorstFit as WF_online
+from .online import NextFit as Nf_online, FirstFit as FF_online, \
+    BestFit as BF_online, WorstFit as WF_online
 
 
 class NextFit(Offline):

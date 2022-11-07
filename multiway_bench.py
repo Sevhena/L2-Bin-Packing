@@ -1,6 +1,5 @@
 import pyperf
-from os import listdir
-from os.path import isfile, join, basename
+from os.path import basename
 
 from macpacking.reader import BinppReader, JburkardtReader
 from macpacking.factory import BinPackerFactory
@@ -36,7 +35,8 @@ def main():
     optimal_binpp_hard = optimals.binpp_hard
     optimal_jbur = optimals.jburkardt
 
-    binpp_cases = [list_files(N4_CASES), list_files(N2_CASES), list_files(HARD_CASES)]
+    binpp_cases = [list_files(N4_CASES), list_files(N2_CASES),
+                   list_files(HARD_CASES)]
     run_binpp_bench(runner, binpp_cases, algorithms)
 
     jburkardt_cases = group_jburkardt_files(list_files(JBURKARDT_CASES))
