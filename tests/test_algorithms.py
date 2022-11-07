@@ -118,7 +118,7 @@ def test_RFF_regular():
     result = strategy(regular)
 
     assert len(result) == 7
-    assert result == [[10, 8, 2], [15, 4,  1], [20], [18, 2], [9, 5], [19]]
+    assert result == [[15], [20], [18], [19], [10, 9], [8], [4, 2, 1, 5, 2]]
 
 
 # Best Fit
